@@ -30,8 +30,8 @@ public class Main {
         String playAgain;
         do {
             play(sc);
-            System.out.println("Do you want to play again? (y or n)");
             do {
+                System.out.println("Do you want to play again? (y or n)");
                 playAgain = sc.nextLine().trim();
                 System.out.println();
             } while (!playAgain.equalsIgnoreCase("y") && !playAgain.equalsIgnoreCase("n"));
@@ -44,6 +44,14 @@ public class Main {
         }
     }
 
+    /**
+     * Reads in input and plays the guessing game with the user. It starts off by asking a series of questions until
+     * a leaf node is reached. It then asks the user if the guess is correct. If the guess is correct, then the method
+     * will end, otherwise, the program will ask the user for the correct answer and a question to differentiate between
+     * the guess and the correct answer.
+     *
+     * @param sc scanner to get user input
+     */
     public static void play(Scanner sc) {
         Node currentNode = tree.getRoot();
         String input;
