@@ -13,6 +13,7 @@ public class Main {
     static {
         Tree tree1;
         if (treeFile.exists()) {
+            // read the tree from file if the file exists
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(treeFile))) {
                 tree1 = (Tree)ois.readObject();
             } catch (IOException | ClassNotFoundException e) {
@@ -29,9 +30,10 @@ public class Main {
         String playAgain;
         do {
             play(sc);
-            System.out.println("Do you want to play again?");
+            System.out.println("Do you want to play again? (y or n)");
             do {
                 playAgain = sc.nextLine().trim();
+                System.out.println();
             } while (!playAgain.equalsIgnoreCase("y") && !playAgain.equalsIgnoreCase("n"));
         } while (!playAgain.equalsIgnoreCase("n"));
         // write to file
@@ -46,9 +48,11 @@ public class Main {
         Node currentNode = tree.getRoot();
         String input;
         while (!currentNode.isLeaf()) {
+            // keep asking questions until we have only one possible guess
             String question = currentNode.data;
             System.out.println(question + " (y or n)");
             input = sc.nextLine().trim();
+            System.out.println();
             if (input.equalsIgnoreCase("y")) {
                 currentNode = currentNode.right;
             } else if (input.equalsIgnoreCase("n")) {
@@ -57,19 +61,24 @@ public class Main {
                 System.out.println("Invalid answer");
             }
         }
+        // guess the animal
         String guess = currentNode.data;
         do {
             System.out.println("Is your animal " + (isVowel(guess.charAt(0)) ? "an " : "a ") + guess + "? (y or n)");
             input = sc.nextLine().trim();
+            System.out.println();
         } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
 
         if (input.equalsIgnoreCase("y")) {
             System.out.println("Hooray! I guessed right!");
         } else {
+            // if the guess is wrong, ask the user for the correct answer and a question.
             System.out.println("What is the correct answer?");
             String correctAnswer = sc.nextLine().trim();
+            System.out.println();
             System.out.println("Enter a question that is true for " + correctAnswer + " but false for " + guess + ".");
             String question = sc.nextLine().trim();
+            System.out.println();
             tree.update(currentNode, correctAnswer, question);
         }
     }
