@@ -93,7 +93,7 @@ public class Main {
 
     public static boolean isVowel(char c) {
         return switch (c) {
-            case 'a', 'e', 'i', 'o', 'u' -> true;
+            case 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' -> true;
             default -> false;
         };
     }
