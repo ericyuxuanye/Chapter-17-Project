@@ -17,8 +17,8 @@ public class Tree implements Serializable {
     /**
      * Updates a guess node into a new question node that branches out into two guess nodes.<br><br>
      *
-     * Example: The program guessed cow, which is wrong. The user provides the right answer, which is a rabbit, and
-     * the question supplied by the user is 'Does it have long years?'<br><br>
+     * Example: The program guessed cow, which is wrong. The user provides the right answer, which is rabbit, and
+     * the question supplied by the user is 'Does it have long ears?'<br><br>
      *
      * The following node is before this method is called.<br><br>
      * <pre>
@@ -31,9 +31,9 @@ public class Tree implements Serializable {
      * ╭───────────────────────────────────╮
      * │ Question: Does it have long ears? │
      * ╰────────────────┬──────────────────╯
-     *      ╭───────────┴──────────╮
-     *   No │                      │ Yes
-     * ╭────┴───────╮      ╭───────┴───────╮
+     *       ┌──────────┴──────────┐
+     *   No  │                     │ Yes
+     * ╭─────┴──────╮      ╭───────┴───────╮
      * │ Guess: Cow │      │ Guess: Rabbit │
      * ╰────────────╯      ╰───────────────╯
      * </pre>
