@@ -26,6 +26,9 @@ public class Main {
 
     public static void main(String[] args) {
 	    // write your code here
+        System.out.println("+--------------------------+");
+        System.out.println("| The Animal Guessing Game |");
+        System.out.println("+--------------------------+");
         Scanner sc = new Scanner(System.in);
         String playAgain;
         do {
@@ -55,6 +58,7 @@ public class Main {
     public static void play(Scanner sc) {
         Node currentNode = tree.getRoot();
         String input;
+        System.out.println("Think of an animal and answer the prompt.");
         while (!currentNode.isLeaf()) {
             // keep asking questions until we have only one possible guess
             String question = currentNode.data;
