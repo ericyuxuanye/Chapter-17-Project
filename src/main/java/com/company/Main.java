@@ -152,6 +152,7 @@ public class Main {
         // f.setResizable(false);
         f.setSize(500, 150);
         f.setVisible(true);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public static boolean isVowel(char c) {
