@@ -32,7 +32,7 @@ public class Tree implements Serializable {
      * │ Question: Does it have long ears? │
      * ╰────────────────┬──────────────────╯
      *       ┌──────────┴──────────┐
-     *   No  │                     │ Yes
+     *    No │                     │ Yes
      * ╭─────┴──────╮      ╭───────┴───────╮
      * │ Guess: Cow │      │ Guess: Rabbit │
      * ╰────────────╯      ╰───────────────╯
