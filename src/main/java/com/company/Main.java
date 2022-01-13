@@ -150,7 +150,7 @@ public class Main {
         f.setContentPane(panel);
         f.pack();
         // f.setResizable(false);
-        f.setSize(500, 100);
+        f.setSize(500, 150);
         f.setVisible(true);
     }
 
