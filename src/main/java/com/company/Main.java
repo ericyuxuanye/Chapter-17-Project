@@ -1,6 +1,6 @@
 package com.company;
 
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 import java.awt.*;
 import java.io.*;
@@ -49,9 +49,9 @@ public class Main {
      * ┌───────────────────────────────────────────────────────┐
      * │ Asking the user for the correct answer and a question │
      * │                                                       │
-     * │   ┌────────────────────────────┐       ╭────────╮     │
-     * │   │                            │       │ Submit │     │
-     * │   └────────────────────────────┘       ╰────────╯     │
+     * │   ┌─────────────────────────────────┐  ╭────────╮     │
+     * │   │                                 │  │ Submit │     │
+     * │   └─────────────────────────────────┘  ╰────────╯     │
      * └───────────────────────────────────────────────────────┘
      * </pre>
      */
@@ -63,9 +63,9 @@ public class Main {
     /**
      * JPanel that contains a JTextField and a submit button
      * <pre>
-     * ┌────────────────────────────┐       ╭────────╮
-     * │                            │       │ Submit │
-     * └────────────────────────────┘       ╰────────╯
+     * ┌─────────────────────────────────┐  ╭────────╮
+     * │                                 │  │ Submit │
+     * └─────────────────────────────────┘  ╰────────╯
      * </pre>
      */
     public static JPanel submitPanel;
@@ -114,7 +114,7 @@ public class Main {
      */
     public static void setupUI() {
         // set the look and feel
-        FlatLightLaf.setup();
+        FlatDarkLaf.setup();
         JFrame f = new JFrame("The Animal Guessing Game");
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
