@@ -199,7 +199,7 @@ public class Main {
     }
 
     /**
-     * Checks if a character is a vower
+     * Checks if a character is a vowel
      * @param c the character to check
      * @return whether c is 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', or 'U'
      */
