@@ -38,7 +38,7 @@ public class Main {
      * Layout of panel when asking a yes or no question, using yesNoPanel at the bottom
      * <pre>
      * ┌───────────────────────────────────────────────────────┐
-     * │ Question or Guess that the computer makes             │
+     * │      Question or Guess that the computer makes        │
      * │                                                       │
      * │     ╭────────╮                       ╭───────╮        │
      * │     │  Yes   │                       │  No   │        │
@@ -155,6 +155,13 @@ public class Main {
         displayData();
 
         // show welcome screen
+        // ┌───────────────────────────────────────────────────────┐
+        // │        Think of an animal and press continue.         │
+        // │                                                       │
+        // │                    ╭────────────╮                     │
+        // │                    │  Continue  │                     │
+        // │                    ╰────────────╯                     │
+        // └───────────────────────────────────────────────────────┘
         JPanel welcomePanel = new JPanel();
         welcomePanel.setLayout(new BoxLayout(welcomePanel, BoxLayout.PAGE_AXIS));
         JLabel welcomeLabel = new JLabel("Think of an animal and press continue.");
