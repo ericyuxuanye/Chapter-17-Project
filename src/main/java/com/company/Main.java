@@ -117,13 +117,16 @@ public class Main {
     public static void setupUI() {
         // set the look and feel
         FlatDarkLaf.setup();
+        // font to use for display
+        Font displayFont = new Font("Arial", Font.PLAIN, 18);
         JFrame f = new JFrame("The Animal Guessing Game");
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
         // set the questionOrGuess to an empty String because we will fill it later
         questionOrGuess = new JLabel("");
         questionOrGuess.setAlignmentX(Component.CENTER_ALIGNMENT);
-        questionOrGuess.setFont(new Font("Arial", Font.PLAIN, 18));
+        questionOrGuess.setFont(displayFont);
         panel.add(Box.createVerticalStrut(10));
         panel.add(questionOrGuess);
 
@@ -151,7 +154,27 @@ public class Main {
         // start game
         displayData();
 
-        f.setContentPane(panel);
+        // show welcome screen
+        JPanel welcomePanel = new JPanel();
+        welcomePanel.setLayout(new BoxLayout(welcomePanel, BoxLayout.PAGE_AXIS));
+        JLabel welcomeLabel = new JLabel("Think of an animal and press continue.");
+        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        welcomeLabel.setFont(displayFont);
+        welcomePanel.add(Box.createVerticalStrut(10));
+        welcomePanel.add(welcomeLabel);
+        JButton continueButton = new JButton("Continue");
+        // when continue button is pressed, we show the game to the user
+        continueButton.addActionListener(e -> {
+            f.setContentPane(panel);
+            f.revalidate();
+            f.repaint();
+        });
+        continueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        welcomePanel.add(Box.createVerticalGlue());
+        welcomePanel.add(continueButton);
+        welcomePanel.add(Box.createVerticalGlue());
+
+        f.setContentPane(welcomePanel);
         f.pack();
         // f.setResizable(false);
         f.setSize(500, 150);
