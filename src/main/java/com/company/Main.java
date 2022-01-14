@@ -4,7 +4,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import java.awt.*;
 import java.io.*;
-import java.util.Scanner;
 
 import javax.swing.*;
 
@@ -110,6 +109,9 @@ public class Main {
         SwingUtilities.invokeLater(Main::setupUI);
     }
 
+    /**
+     * Initializes graphics components to start the game
+     */
     public static void setupUI() {
         // set the look and feel
         FlatLightLaf.setup();
@@ -145,7 +147,7 @@ public class Main {
         panel.add(yesNoPanel);
 
         // start game
-        loadNext();
+        displayData();
 
         f.setContentPane(panel);
         f.pack();
@@ -155,6 +157,11 @@ public class Main {
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Checks if a character is a vower
+     * @param c the character to check
+     * @return whether c is 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', or 'U'
+     */
     public static boolean isVowel(char c) {
         return switch (c) {
             case 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' -> true;
@@ -162,21 +169,26 @@ public class Main {
         };
     }
 
-
+    /**
+     * Runs when 'yes' button is pressed
+     */
     public static void yesAction() {
         if (currentlyGuessing) {
+            // If the user pressed yes when the computer was guessing, then the computer is correct
             askForReplay("Yay! I guessed right. Do you want to play again?");
         } else if (isAskingForReplay) {
             isAskingForReplay = false;
-            // user answers yes to replay, so we ask the first question again
             currentNode = tree.getRoot();
-            loadNext();
+            displayData();
         } else {
             currentNode = currentNode.right;
-            loadNext();
+            displayData();
         }
     }
 
+    /**
+     * Runs when 'no' button is pressed
+     */
     public static void noAction() {
         if (currentlyGuessing) {
             // switch to text entry mode
@@ -195,11 +207,14 @@ public class Main {
             System.exit(0);
         } else {
             currentNode = currentNode.left;
-            loadNext();
+            displayData();
         }
     }
 
-    public static void loadNext() {
+    /**
+     * Loads the question or guess in the current node
+     */
+    public static void displayData() {
         if (currentNode.isLeaf()) {
             // guess
             String guess = currentNode.data;
@@ -211,13 +226,19 @@ public class Main {
         }
     }
 
+    /**
+     * Asks user for replay
+     * @param question question to ask for replay
+     */
     public static void askForReplay(String question) {
         currentlyGuessing = false;
         questionOrGuess.setText(question);
         isAskingForReplay = true;
     }
 
-
+    /**
+     * Runs when submit button is pressed
+     */
     public static void submitAction() {
         if (isAskingForAnswer) {
             correctAnswer = userInput.getText();
