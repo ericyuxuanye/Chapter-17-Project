@@ -298,6 +298,9 @@ public class Main {
         }
     }
 
+    /**
+     * Write the Tree object to file
+     */
     public static void saveTree() {
         try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(treeFile))) {
             os.writeObject(tree);
