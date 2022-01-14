@@ -3,6 +3,8 @@ package com.company;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 
 import javax.swing.*;
@@ -154,7 +156,16 @@ public class Main {
         // f.setResizable(false);
         f.setSize(500, 150);
         f.setVisible(true);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        // write tree to file when close button is pressed
+        f.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // write tree to file
+                saveTree();
+                System.exit(0);
+            }
+        });
     }
 
     /**
@@ -199,11 +210,7 @@ public class Main {
             panel.repaint();
         } else if (isAskingForReplay) {
             // write file to disk
-            try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(treeFile))) {
-                os.writeObject(tree);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            saveTree();
             System.exit(0);
         } else {
             currentNode = currentNode.left;
@@ -258,6 +265,14 @@ public class Main {
             panel.revalidate();
             panel.repaint();
             askForReplay("I'll learn that! Do you want to play again?");
+        }
+    }
+
+    public static void saveTree() {
+        try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(treeFile))) {
+            os.writeObject(tree);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
