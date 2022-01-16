@@ -35,6 +35,7 @@ public class Main {
     }
 
     /**
+     * JPanel that holds the prompt and a way to input questions for the user.
      * Layout of panel when asking a yes or no question, using yesNoPanel at the bottom
      * <pre>
      * ┌───────────────────────────────────────────────────────┐
@@ -127,7 +128,7 @@ public class Main {
         questionOrGuess = new JLabel("");
         questionOrGuess.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionOrGuess.setFont(displayFont);
-        panel.add(Box.createVerticalStrut(10));
+        panel.add(Box.createVerticalGlue());
         panel.add(questionOrGuess);
 
         // setup the submitPanel
@@ -140,7 +141,7 @@ public class Main {
         submitPanel.add(submitButton);
 
         // setup yesNoPanel
-        yesNoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
+        yesNoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
         yesButton = new JButton("Yes");
         yesButton.addActionListener(e -> yesAction());
         noButton = new JButton("No");
@@ -167,7 +168,7 @@ public class Main {
         JLabel welcomeLabel = new JLabel("Think of an animal and press continue.");
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         welcomeLabel.setFont(displayFont);
-        welcomePanel.add(Box.createVerticalStrut(10));
+        welcomePanel.add(Box.createVerticalGlue());
         welcomePanel.add(welcomeLabel);
         JButton continueButton = new JButton("Continue");
         // when continue button is pressed, we show the game to the user
@@ -235,6 +236,7 @@ public class Main {
             // switch to text entry mode
             panel.remove(3);
             panel.add(submitPanel);
+            userInput.requestFocus();
             questionOrGuess.setText("What is the correct answer?");
             panel.revalidate();
             panel.repaint();
@@ -283,6 +285,7 @@ public class Main {
             questionOrGuess.setText("Enter a question that is true for " + correctAnswer
                     + " but false for " + currentNode.data + ".");
             userInput.setText(null);
+            userInput.requestFocus();
         } else {
             String question = userInput.getText();
             userInput.setText(null);

@@ -21,7 +21,11 @@ public class Node implements Serializable {
         this.data = data;
     }
 
+    /**
+     * Whether this node is a leaf node (no children)
+     * @return true if this node is a leaf node
+     */
     public boolean isLeaf() {
-        return left == null || right == null;
+        return left == null && right == null;
     }
 }
