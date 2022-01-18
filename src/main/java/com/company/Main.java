@@ -279,7 +279,10 @@ public class Main {
      * Runs when submit button is pressed
      */
     public static void submitAction() {
-        if (isAskingForAnswer) {
+        if (userInput.getText().length() == 0) {
+            JOptionPane.showMessageDialog(
+                    panel, "Cannot have empty answer", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (isAskingForAnswer) {
             correctAnswer = userInput.getText();
             isAskingForAnswer = false;
             questionOrGuess.setText("Enter a question that is true for " + correctAnswer
