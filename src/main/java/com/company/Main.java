@@ -5,15 +5,21 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main {
 
     public static final Tree tree;
     // put the file that stores the tree in the user's downloads directory, feel free to change this
     public static final File treeFile = new File(System.getProperty("user.home") + "/Downloads/treefile.ser");
+
+    public static final ImageIcon BLANK_IMAGE = new ImageIcon(new BufferedImage(1, 100, BufferedImage.TYPE_INT_ARGB));
 
     // to store currentNode
     public static Node currentNode;
@@ -63,6 +69,14 @@ public class Main {
     /** The prompt shown to the user every time */
     public static JLabel questionOrGuess;
 
+    /** Image supplied by user */
+    public static JLabel image;
+
+    /**
+     * Panel that holds the guess, along with an image
+     */
+    public static JPanel guessPanel;
+
     /**
      * JPanel that contains a JTextField and a submit button
      * <pre>
@@ -104,6 +118,12 @@ public class Main {
     /** Whether the program is asking whether user wants to replay */
     public static boolean isAskingForReplay = false;
 
+    /** Whether user is choosing an image */
+    public static boolean isChoosingImage = false;
+
+    /** To store the question supplied by user */
+    public static String question;
+
     /** To store the correct answer supplied by user */
     public static String correctAnswer;
 
@@ -124,12 +144,20 @@ public class Main {
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
+        guessPanel = new JPanel();
+        guessPanel.setLayout(new BoxLayout(guessPanel, BoxLayout.PAGE_AXIS));
         // set the questionOrGuess to an empty String because we will fill it later
-        questionOrGuess = new JLabel("");
+        questionOrGuess = new JLabel();
         questionOrGuess.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionOrGuess.setFont(displayFont);
-        panel.add(Box.createVerticalGlue());
-        panel.add(questionOrGuess);
+        // image
+        image = new JLabel(tree.getRoot().img);
+        image.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createVerticalStrut(10));
+        guessPanel.add(questionOrGuess);
+        guessPanel.add(Box.createVerticalStrut(5));
+        guessPanel.add(image);
+        panel.add(guessPanel);
 
         // setup the submitPanel
         submitPanel = new JPanel();
@@ -168,7 +196,7 @@ public class Main {
         JLabel welcomeLabel = new JLabel("Think of an animal and press continue.");
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         welcomeLabel.setFont(displayFont);
-        welcomePanel.add(Box.createVerticalGlue());
+        welcomePanel.add(Box.createVerticalStrut(10));
         welcomePanel.add(welcomeLabel);
         JButton continueButton = new JButton("Continue");
         // when continue button is pressed, we show the game to the user
@@ -178,6 +206,8 @@ public class Main {
             f.repaint();
         });
         continueButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        continueButton.setPreferredSize(new Dimension(200, 50));
+        continueButton.setFont(displayFont);
         welcomePanel.add(Box.createVerticalGlue());
         welcomePanel.add(continueButton);
         welcomePanel.add(Box.createVerticalGlue());
@@ -185,8 +215,9 @@ public class Main {
         f.setContentPane(welcomePanel);
         f.pack();
         // f.setResizable(false);
-        f.setSize(500, 150);
+        f.setSize(500, 240);
         f.setVisible(true);
+        //f.setResizable(false);
 
         // write tree to file when close button is pressed
         f.addWindowListener(new WindowAdapter() {
@@ -215,8 +246,31 @@ public class Main {
      * Runs when 'yes' button is pressed
      */
     public static void yesAction() {
-        if (currentlyGuessing) {
+        if (isChoosingImage) {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "JPG, GIF & PNG Images", "jpg", "gif", "png", "jpeg");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(panel);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                BufferedImage img;
+                try {
+                    img = ImageIO.read(chooser.getSelectedFile());
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(
+                            panel, "Error reading image: " + chooser.getSelectedFile().getName(),
+                            "Unable to load image", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                // scale image so it isn't too big/small
+                ImageIcon animalImage = new ImageIcon(img.getScaledInstance(-1, 100, Image.SCALE_DEFAULT));
+                tree.update(currentNode, new Node(correctAnswer, animalImage), question);
+                isChoosingImage = false;
+                askForReplay("I'll learn that! Do you want to play again?");
+            }
+        } else if (currentlyGuessing) {
             // If the user pressed yes when the computer was guessing, then the computer is correct
+            image.setIcon(BLANK_IMAGE);
             askForReplay("Yay! I guessed right. Do you want to play again?");
         } else if (isAskingForReplay) {
             isAskingForReplay = false;
@@ -232,12 +286,17 @@ public class Main {
      * Runs when 'no' button is pressed
      */
     public static void noAction() {
-        if (currentlyGuessing) {
+        if (isChoosingImage) {
+            isChoosingImage = false;
+            tree.update(currentNode, new Node(correctAnswer), question);
+            askForReplay("I'll learn that! Do you want to play again?");
+        } else if (currentlyGuessing) {
             // switch to text entry mode
             panel.remove(3);
             panel.add(submitPanel);
             userInput.requestFocus();
             questionOrGuess.setText("What is the correct answer?");
+            image.setIcon(BLANK_IMAGE);
             panel.revalidate();
             panel.repaint();
         } else if (isAskingForReplay) {
@@ -257,11 +316,13 @@ public class Main {
         if (currentNode.isLeaf()) {
             // guess
             String guess = currentNode.data;
+            image.setIcon(Objects.requireNonNullElse(currentNode.img, BLANK_IMAGE));
             questionOrGuess.setText("Is your animal " + (isVowel(guess.charAt(0)) ? "an " : "a ") + guess + "?");
             currentlyGuessing = true;
         } else {
             // ask question
             questionOrGuess.setText(currentNode.data);
+            image.setIcon(BLANK_IMAGE);
         }
     }
 
@@ -272,7 +333,9 @@ public class Main {
     public static void askForReplay(String question) {
         currentlyGuessing = false;
         questionOrGuess.setText(question);
+        image.setIcon(BLANK_IMAGE);
         isAskingForReplay = true;
+        isAskingForAnswer = true;
     }
 
     /**
@@ -290,17 +353,17 @@ public class Main {
             userInput.setText(null);
             userInput.requestFocus();
         } else {
-            String question = userInput.getText();
+            question = userInput.getText();
             userInput.setText(null);
-            tree.update(currentNode, correctAnswer, question);
+            questionOrGuess.setText("Would you like to add an image of "
+                    + (isVowel(correctAnswer.charAt(0)) ? "an " : "a ") + correctAnswer + "?");
 
-            // reset stuff
-            isAskingForAnswer = true;
+            // replace with yes no panel
             panel.remove(3);
             panel.add(yesNoPanel);
             panel.revalidate();
             panel.repaint();
-            askForReplay("I'll learn that! Do you want to play again?");
+            isChoosingImage = true;
         }
     }
 
