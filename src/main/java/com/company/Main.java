@@ -1,6 +1,7 @@
 package com.company;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -19,7 +20,7 @@ public class Main {
     // put the file that stores the tree in the user's downloads directory, feel free to change this
     public static final File treeFile = new File(System.getProperty("user.home") + "/Downloads/treefile.ser");
 
-    public static final ImageIcon BLANK_IMAGE = new ImageIcon(new BufferedImage(1, 200, BufferedImage.TYPE_INT_ARGB));
+    public static final ImageIcon QUESTION_IMAGE = new FlatSVGIcon("question.svg", 150, 150);
 
     // to store currentNode
     public static Node currentNode;
@@ -277,7 +278,7 @@ public class Main {
             }
         } else if (currentlyGuessing) {
             // If the user pressed yes when the computer was guessing, then the computer is correct
-            image.setIcon(BLANK_IMAGE);
+            image.setIcon(QUESTION_IMAGE);
             askForReplay("Yay! I guessed right. Do you want to play again?");
         } else if (isAskingForReplay) {
             isAskingForReplay = false;
@@ -303,7 +304,7 @@ public class Main {
             panel.add(submitPanel);
             userInput.requestFocus();
             questionOrGuess.setText("What is the correct answer?");
-            image.setIcon(BLANK_IMAGE);
+            image.setIcon(QUESTION_IMAGE);
             panel.revalidate();
             panel.repaint();
         } else if (isAskingForReplay) {
@@ -323,13 +324,13 @@ public class Main {
         if (currentNode.isLeaf()) {
             // guess
             String guess = currentNode.data;
-            image.setIcon(Objects.requireNonNullElse(currentNode.img, BLANK_IMAGE));
+            image.setIcon(Objects.requireNonNullElse(currentNode.img, QUESTION_IMAGE));
             questionOrGuess.setText("Is your animal " + (isVowel(guess.charAt(0)) ? "an " : "a ") + guess + "?");
             currentlyGuessing = true;
         } else {
             // ask question
             questionOrGuess.setText(currentNode.data);
-            image.setIcon(BLANK_IMAGE);
+            image.setIcon(QUESTION_IMAGE);
         }
     }
 
@@ -340,7 +341,7 @@ public class Main {
     public static void askForReplay(String question) {
         currentlyGuessing = false;
         questionOrGuess.setText(question);
-        image.setIcon(BLANK_IMAGE);
+        image.setIcon(QUESTION_IMAGE);
         isAskingForReplay = true;
         isAskingForAnswer = true;
     }
