@@ -19,7 +19,7 @@ public class Main {
     // put the file that stores the tree in the user's downloads directory, feel free to change this
     public static final File treeFile = new File(System.getProperty("user.home") + "/Downloads/treefile.ser");
 
-    public static final ImageIcon BLANK_IMAGE = new ImageIcon(new BufferedImage(1, 150, BufferedImage.TYPE_INT_ARGB));
+    public static final ImageIcon BLANK_IMAGE = new ImageIcon(new BufferedImage(1, 200, BufferedImage.TYPE_INT_ARGB));
 
     // to store currentNode
     public static Node currentNode;
@@ -214,7 +214,7 @@ public class Main {
 
         f.setContentPane(welcomePanel);
         f.pack();
-        f.setSize(800, 300);
+        f.setSize(800, 320);
         f.setVisible(true);
         f.setResizable(false);
 
@@ -262,7 +262,7 @@ public class Main {
                     return;
                 }
                 // scale image so it isn't too big/small
-                ImageIcon animalImage = new ImageIcon(img.getScaledInstance(-1, 150, Image.SCALE_DEFAULT));
+                ImageIcon animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
                 tree.update(currentNode, new Node(correctAnswer, animalImage), question);
                 isChoosingImage = false;
                 askForReplay("I'll learn that! Do you want to play again?");
