@@ -8,10 +8,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Tree implements Serializable {
-    private final Node root;
 
-    public Tree() {
-        ImageIcon img = null;
+    private static ImageIcon img;
+    static {
         try {
             BufferedImage bufferedImage =
                     ImageIO.read(Objects.requireNonNull(Main.class.getClassLoader().getResource("cow.jpg")));
@@ -23,6 +22,11 @@ public class Tree implements Serializable {
                     "AAAHH", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
+    }
+
+    private final Node root;
+
+    public Tree() {
         // The first animal is Cow, how nice!
         root = new Node("Cow", img);
     }
