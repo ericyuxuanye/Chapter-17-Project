@@ -214,10 +214,9 @@ public class Main {
 
         f.setContentPane(welcomePanel);
         f.pack();
-        // f.setResizable(false);
         f.setSize(500, 240);
         f.setVisible(true);
-        //f.setResizable(false);
+        f.setResizable(false);
 
         // write tree to file when close button is pressed
         f.addWindowListener(new WindowAdapter() {
