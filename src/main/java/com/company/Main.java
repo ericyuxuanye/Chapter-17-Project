@@ -196,7 +196,7 @@ public class Main {
         JLabel welcomeLabel = new JLabel("Think of an animal and press continue.");
         welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         welcomeLabel.setFont(displayFont);
-        welcomePanel.add(Box.createVerticalStrut(10));
+        welcomePanel.add(Box.createVerticalGlue());
         welcomePanel.add(welcomeLabel);
         JButton continueButton = new JButton("Continue");
         // when continue button is pressed, we show the game to the user
@@ -259,6 +259,14 @@ public class Main {
                     JOptionPane.showMessageDialog(
                             panel, "Error reading image: " + chooser.getSelectedFile().getName(),
                             "Unable to load image", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (img == null) {
+                    JOptionPane.showMessageDialog(
+                            panel,
+                            "Unsupported Image format",
+                            "Unable to load image",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 // scale image so it isn't too big/small
