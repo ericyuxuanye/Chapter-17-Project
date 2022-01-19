@@ -20,7 +20,7 @@ public class Main {
     // put the file that stores the tree in the user's downloads directory, feel free to change this
     public static final File treeFile = new File(System.getProperty("user.home") + "/Downloads/treefile.ser");
 
-    public static final ImageIcon QUESTION_IMAGE = new FlatSVGIcon("question.svg", 150, 150);
+    public static final ImageIcon QUESTION_IMAGE = new FlatSVGIcon("question.svg", 200, 200);
 
     // to store currentNode
     public static Node currentNode;
