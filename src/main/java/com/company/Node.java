@@ -12,7 +12,7 @@ public class Node implements Serializable {
     /**
      * Holds an image if this is a leaf node and the user has supplied an image
      */
-    ImageIcon img;
+    Icon img;
     /**
      * The no branch
      */
@@ -31,7 +31,7 @@ public class Node implements Serializable {
         this.data = data;
     }
 
-    public Node(String data, ImageIcon img) {
+    public Node(String data, Icon img) {
         this.data = data;
         this.img = img;
     }

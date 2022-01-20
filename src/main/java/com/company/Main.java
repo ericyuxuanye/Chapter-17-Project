@@ -1,7 +1,6 @@
 package com.company;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,7 +22,7 @@ public class Main {
     public static final File treeFile =
             new File(System.getProperty("user.home") + "/Downloads/treefile.ser.gz");
 
-    public static final ImageIcon QUESTION_IMAGE = new FlatSVGIcon("question.svg", 200, 200);
+    public static final Icon QUESTION_IMAGE = new WritableSVGImage("question.svg", 200);
 
     // to store currentNode
     public static Node currentNode;
@@ -262,7 +261,7 @@ public class Main {
                     new FileDialog((Frame) SwingUtilities.getWindowAncestor(panel), "Choose Image", FileDialog.LOAD);
             fd.setFilenameFilter(new FilenameFilter() {
                 static final HashSet<String> acceptedImages =
-                        new HashSet<>(List.of("jpg", "png", "gif", "jpeg", "webp"));
+                        new HashSet<>(List.of("jpg", "png", "gif", "jpeg", "webp", "svg"));
 
                 @Override
                 public boolean accept(File dir, String name) {
@@ -274,25 +273,31 @@ public class Main {
             if (fd.getFile() != null) {
                 String filename = fd.getDirectory() + fd.getFile();
                 File imageFile = new File(filename);
-                BufferedImage img;
-                try {
-                    img = ImageIO.read(imageFile);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(
-                            panel, "Error reading image: " + imageFile.getName(),
-                            "Unable to load image", JOptionPane.ERROR_MESSAGE);
-                    return;
+                Icon animalImage;
+                if (filename.substring(filename.lastIndexOf('.') + 1).equals("svg")) {
+                    // read svg file
+                    animalImage = new WritableSVGImage(imageFile, 200);
+                } else {
+                    BufferedImage img;
+                    try {
+                        img = ImageIO.read(imageFile);
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(
+                                panel, "Error reading image: " + imageFile.getName(),
+                                "Unable to load image", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (img == null) {
+                        JOptionPane.showMessageDialog(
+                                panel,
+                                "Unsupported Image format",
+                                "Unable to load image",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    // scale image so it isn't too big/small
+                    animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
                 }
-                if (img == null) {
-                    JOptionPane.showMessageDialog(
-                            panel,
-                            "Unsupported Image format",
-                            "Unable to load image",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                // scale image so it isn't too big/small
-                ImageIcon animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
                 tree.update(currentNode, new Node(correctAnswer, animalImage), question);
                 isChoosingImage = false;
                 askForReplay("I'll learn that! Do you want to play again?");
