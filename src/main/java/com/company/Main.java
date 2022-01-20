@@ -296,7 +296,7 @@ public class Main {
                         return;
                     }
                     // scale image so it isn't too big/small
-                    animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
+                    animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_SMOOTH));
                 }
                 tree.update(currentNode, new Node(correctAnswer, animalImage), question);
                 isChoosingImage = false;

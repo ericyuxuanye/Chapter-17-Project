@@ -9,17 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a0d66f8-c8dd-4653-90d7-ec107a01d377" name="Changes" comment="Clean up code">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_formdev_flatlaf_extras_2_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_sejda_imageio_webp_imageio_0_1_6.xml" beforeDir="false" />
+    <list default="true" id="9a0d66f8-c8dd-4653-90d7-ec107a01d377" name="Changes" comment="Custom class for svg, so we can serialize it.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Chapter17Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Chapter17Project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/WritableImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/WritableSVGImage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -400,7 +392,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642651160357</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Custom class for svg, so we can serialize it.">
+      <created>1642720770824</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1642720770824</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -461,7 +460,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added cool comments" />
     <MESSAGE value="Made project maven" />
     <MESSAGE value="Added basic GUI" />
     <MESSAGE value="Minor Fixes #2" />
@@ -486,7 +484,8 @@
     <MESSAGE value="Use native dialogs." />
     <MESSAGE value="Remove svg support as they cannot be serialized" />
     <MESSAGE value="Clean up code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean up code" />
+    <MESSAGE value="Custom class for svg, so we can serialize it." />
+    <option name="LAST_COMMIT_MESSAGE" value="Custom class for svg, so we can serialize it." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
