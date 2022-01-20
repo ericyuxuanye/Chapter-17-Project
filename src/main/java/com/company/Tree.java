@@ -1,13 +1,34 @@
 package com.company;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Tree implements Serializable {
+
+    private static ImageIcon img;
+    static {
+        try {
+            BufferedImage bufferedImage =
+                    ImageIO.read(Objects.requireNonNull(Tree.class.getClassLoader().getResource("cow.jpg")));
+            img = new ImageIcon(bufferedImage);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "AAAAAH THIS SHOULD NEVER HAVE HAPPENED!!!!!",
+                    "AAAHH", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+    }
+
     private final Node root;
 
     public Tree() {
         // The first animal is Cow, how nice!
-        root = new Node("Cow");
+        root = new Node("Cow", img);
     }
 
     public Node getRoot() {
@@ -38,14 +59,14 @@ public class Tree implements Serializable {
      * ╰────────────╯      ╰───────────────╯
      * </pre>
      * @param wrongGuess The original node that contains the wrong guess
-     * @param rightGuess The correct answer provided by the user
+     * @param rightGuess The node containing the correct answer
      * @param question The question used to distinguish between the wrong guess and the right guess
      */
-    public void update(Node wrongGuess, String rightGuess, String question) {
-        Node rightBranch = new Node(rightGuess);
-        Node leftBranch = new Node(wrongGuess.data);
+    public void update(Node wrongGuess, Node rightGuess, String question) {
+        Node leftBranch = new Node(wrongGuess.data, wrongGuess.img);
         wrongGuess.data = question;
+        wrongGuess.img = null;
         wrongGuess.left = leftBranch;
-        wrongGuess.right = rightBranch;
+        wrongGuess.right = rightGuess;
     }
 }

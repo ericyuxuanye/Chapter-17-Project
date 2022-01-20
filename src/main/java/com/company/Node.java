@@ -1,5 +1,6 @@
 package com.company;
 
+import javax.swing.*;
 import java.io.Serializable;
 
 public class Node implements Serializable {
@@ -9,6 +10,10 @@ public class Node implements Serializable {
      */
     String data;
     /**
+     * Holds an image if this is a leaf node and the user has supplied an image
+     */
+    ImageIcon img;
+    /**
      * The no branch
      */
     Node left;
@@ -17,8 +22,17 @@ public class Node implements Serializable {
      */
     Node right;
 
+    /**
+     * Creates a new Node object
+     * @param data the text this node stores
+     */
     public Node(String data) {
         this.data = data;
+    }
+
+    public Node(String data, ImageIcon img) {
+        this.data = data;
+        this.img = img;
     }
 
     /**
