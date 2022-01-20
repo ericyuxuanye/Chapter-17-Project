@@ -8,13 +8,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main {
 
@@ -250,15 +251,23 @@ public class Main {
      */
     public static void yesAction() {
         if (isChoosingImage) {
-            JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "JPG, GIF, PNG, SVG, WEBP", "jpg", "gif", "png", "jpeg", "svg", "webp");
-            chooser.setFileFilter(filter);
-            int returnVal = chooser.showOpenDialog(panel);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File imageFile = chooser.getSelectedFile();
+            FileDialog fd =
+                    new FileDialog((Frame)SwingUtilities.getWindowAncestor(panel), "Choose Image", FileDialog.LOAD);
+            fd.setFilenameFilter(new FilenameFilter() {
+                static final HashSet<String> acceptedImages =
+                        new HashSet<>(List.of("jpg", "png", "gif", "jpeg", "svg", "webp"));
+                @Override
+                public boolean accept(File dir, String name) {
+                    String extension = name.substring(name.lastIndexOf('.') + 1);
+                    return acceptedImages.contains(extension);
+                }
+            });
+            fd.setVisible(true);
+            if (fd.getFile() != null) {
+                String filename = fd.getDirectory() + fd.getFile();
+                File imageFile = new File(filename);
                 ImageIcon animalImage;
-                if (chooser.getSelectedFile().getName().endsWith("svg")) {
+                if (filename.endsWith("svg")) {
                     animalImage = new FlatSVGIcon(imageFile).derive(-1, 200);
                 } else {
                     BufferedImage img;
