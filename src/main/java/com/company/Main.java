@@ -9,6 +9,8 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Objects;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,7 +20,8 @@ public class Main {
 
     public static final Tree tree;
     // put the file that stores the tree in the user's downloads directory, feel free to change this
-    public static final File treeFile = new File(System.getProperty("user.home") + "/Downloads/treefile.ser");
+    public static final File treeFile =
+            new File(System.getProperty("user.home") + "/Downloads/treefile.ser.gz");
 
     public static final ImageIcon QUESTION_IMAGE = new FlatSVGIcon("question.svg", 200, 200);
 
@@ -30,7 +33,7 @@ public class Main {
         Tree tree1;
         if (treeFile.exists()) {
             // read the tree from file if the file exists
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(treeFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream(treeFile)))) {
                 tree1 = (Tree)ois.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -379,7 +382,7 @@ public class Main {
      * Write the Tree object to file
      */
     public static void saveTree() {
-        try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(treeFile))) {
+        try (ObjectOutputStream os = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(treeFile)))) {
             os.writeObject(tree);
         } catch (IOException e) {
             e.printStackTrace();
