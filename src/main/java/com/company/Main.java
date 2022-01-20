@@ -252,29 +252,35 @@ public class Main {
         if (isChoosingImage) {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    "JPG, GIF & PNG Images", "jpg", "gif", "png", "jpeg");
+                    "JPG, GIF, PNG, SVG, WEBP", "jpg", "gif", "png", "jpeg", "svg", "webp");
             chooser.setFileFilter(filter);
             int returnVal = chooser.showOpenDialog(panel);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                BufferedImage img;
-                try {
-                    img = ImageIO.read(chooser.getSelectedFile());
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(
-                            panel, "Error reading image: " + chooser.getSelectedFile().getName(),
-                            "Unable to load image", JOptionPane.ERROR_MESSAGE);
-                    return;
+                File imageFile = chooser.getSelectedFile();
+                ImageIcon animalImage;
+                if (chooser.getSelectedFile().getName().endsWith("svg")) {
+                    animalImage = new FlatSVGIcon(imageFile).derive(-1, 200);
+                } else {
+                    BufferedImage img;
+                    try {
+                        img = ImageIO.read(imageFile);
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(
+                                panel, "Error reading image: " + imageFile.getName(),
+                                "Unable to load image", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (img == null) {
+                        JOptionPane.showMessageDialog(
+                                panel,
+                                "Unsupported Image format",
+                                "Unable to load image",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    // scale image so it isn't too big/small
+                    animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
                 }
-                if (img == null) {
-                    JOptionPane.showMessageDialog(
-                            panel,
-                            "Unsupported Image format",
-                            "Unable to load image",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                // scale image so it isn't too big/small
-                ImageIcon animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
                 tree.update(currentNode, new Node(correctAnswer, animalImage), question);
                 isChoosingImage = false;
                 askForReplay("I'll learn that! Do you want to play again?");
