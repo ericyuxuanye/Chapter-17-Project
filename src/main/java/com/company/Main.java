@@ -255,7 +255,7 @@ public class Main {
                     new FileDialog((Frame)SwingUtilities.getWindowAncestor(panel), "Choose Image", FileDialog.LOAD);
             fd.setFilenameFilter(new FilenameFilter() {
                 static final HashSet<String> acceptedImages =
-                        new HashSet<>(List.of("jpg", "png", "gif", "jpeg", "svg", "webp"));
+                        new HashSet<>(List.of("jpg", "png", "gif", "jpeg", "webp"));
                 @Override
                 public boolean accept(File dir, String name) {
                     String extension = name.substring(name.lastIndexOf('.') + 1);
@@ -266,30 +266,25 @@ public class Main {
             if (fd.getFile() != null) {
                 String filename = fd.getDirectory() + fd.getFile();
                 File imageFile = new File(filename);
-                ImageIcon animalImage;
-                if (filename.endsWith("svg")) {
-                    animalImage = new FlatSVGIcon(imageFile).derive(-1, 200);
-                } else {
-                    BufferedImage img;
-                    try {
-                        img = ImageIO.read(imageFile);
-                    } catch (IOException e) {
-                        JOptionPane.showMessageDialog(
-                                panel, "Error reading image: " + imageFile.getName(),
-                                "Unable to load image", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    if (img == null) {
-                        JOptionPane.showMessageDialog(
-                                panel,
-                                "Unsupported Image format",
-                                "Unable to load image",
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    // scale image so it isn't too big/small
-                    animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
+                BufferedImage img;
+                try {
+                    img = ImageIO.read(imageFile);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(
+                            panel, "Error reading image: " + imageFile.getName(),
+                            "Unable to load image", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
+                if (img == null) {
+                    JOptionPane.showMessageDialog(
+                            panel,
+                            "Unsupported Image format",
+                            "Unable to load image",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                // scale image so it isn't too big/small
+                ImageIcon animalImage = new ImageIcon(img.getScaledInstance(-1, 200, Image.SCALE_DEFAULT));
                 tree.update(currentNode, new Node(correctAnswer, animalImage), question);
                 isChoosingImage = false;
                 askForReplay("I'll learn that! Do you want to play again?");
