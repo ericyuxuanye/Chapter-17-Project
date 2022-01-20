@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Tree implements Serializable {
 
     private static ImageIcon img;
+
     static {
         try {
             BufferedImage bufferedImage =
@@ -37,10 +38,10 @@ public class Tree implements Serializable {
 
     /**
      * Updates a guess node into a new question node that branches out into two guess nodes.<br><br>
-     *
+     * <p>
      * Example: The program guessed cow, which is wrong. The user provides the right answer, which is rabbit, and
      * the question supplied by the user is 'Does it have long ears?'<br><br>
-     *
+     * <p>
      * The following node is before this method is called.<br><br>
      * <pre>
      * ╭────────────╮
@@ -58,9 +59,10 @@ public class Tree implements Serializable {
      * │ Guess: Cow │      │ Guess: Rabbit │
      * ╰────────────╯      ╰───────────────╯
      * </pre>
+     *
      * @param wrongGuess The original node that contains the wrong guess
      * @param rightGuess The node containing the correct answer
-     * @param question The question used to distinguish between the wrong guess and the right guess
+     * @param question   The question used to distinguish between the wrong guess and the right guess
      */
     public void update(Node wrongGuess, Node rightGuess, String question) {
         Node leftBranch = new Node(wrongGuess.data, wrongGuess.img);

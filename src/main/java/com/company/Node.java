@@ -24,6 +24,7 @@ public class Node implements Serializable {
 
     /**
      * Creates a new Node object
+     *
      * @param data the text this node stores
      */
     public Node(String data) {
@@ -37,6 +38,7 @@ public class Node implements Serializable {
 
     /**
      * Whether this node is a leaf node (no children)
+     *
      * @return true if this node is a leaf node
      */
     public boolean isLeaf() {

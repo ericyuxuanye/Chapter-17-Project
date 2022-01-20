@@ -3,6 +3,8 @@ package com.company;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -13,9 +15,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
 public class Main {
 
@@ -28,23 +27,6 @@ public class Main {
 
     // to store currentNode
     public static Node currentNode;
-
-    // static block, which means that this should be run as soon as the Main class is loaded
-    static {
-        Tree tree1;
-        if (treeFile.exists()) {
-            // read the tree from file if the file exists
-            try (ObjectInputStream ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream(treeFile)))) {
-                tree1 = (Tree)ois.readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                tree1 = new Tree();
-            }
-        } else tree1 = new Tree();
-        tree = tree1;
-        currentNode = tree.getRoot();
-    }
-
     /**
      * JPanel that holds the prompt and a way to input questions for the user.
      * Layout of panel when asking a yes or no question, using yesNoPanel at the bottom
@@ -57,7 +39,7 @@ public class Main {
      * │     ╰────────╯                       ╰───────╯        │
      * └───────────────────────────────────────────────────────┘
      * </pre>
-     *
+     * <p>
      * Layout of panel when asking for input, using submitPanel at the bottom
      * <pre>
      * ┌───────────────────────────────────────────────────────┐
@@ -70,18 +52,18 @@ public class Main {
      * </pre>
      */
     public static JPanel panel;
-
-    /** The prompt shown to the user every time */
+    /**
+     * The prompt shown to the user every time
+     */
     public static JLabel questionOrGuess;
-
-    /** Image supplied by user */
+    /**
+     * Image supplied by user
+     */
     public static JLabel image;
-
     /**
      * Panel that holds the guess, along with an image
      */
     public static JPanel guessPanel;
-
     /**
      * JPanel that contains a JTextField and a submit button
      * <pre>
@@ -91,7 +73,6 @@ public class Main {
      * </pre>
      */
     public static JPanel submitPanel;
-
     /**
      * JPanel that contains a yes and a no button
      * <pre>
@@ -101,37 +82,62 @@ public class Main {
      * </pre>
      */
     public static JPanel yesNoPanel;
-
-    /** Yes button */
+    /**
+     * Yes button
+     */
     public static JButton yesButton;
-
-    /** No button */
+    /**
+     * No button
+     */
     public static JButton noButton;
-
-    /** Where the user can type the answer */
+    /**
+     * Where the user can type the answer
+     */
     public static JTextField userInput;
-
-    /** Submit button for the JTextField */
+    /**
+     * Submit button for the JTextField
+     */
     public static JButton submitButton;
-
-    /** Whether the program has reached a leaf and is guessing */
+    /**
+     * Whether the program has reached a leaf and is guessing
+     */
     public static boolean currentlyGuessing = false;
-
-    /** Whether the program is asking the user for the correct answer */
+    /**
+     * Whether the program is asking the user for the correct answer
+     */
     public static boolean isAskingForAnswer = true;
-
-    /** Whether the program is asking whether user wants to replay */
+    /**
+     * Whether the program is asking whether user wants to replay
+     */
     public static boolean isAskingForReplay = false;
-
-    /** Whether user is choosing an image */
+    /**
+     * Whether user is choosing an image
+     */
     public static boolean isChoosingImage = false;
-
-    /** To store the question supplied by user */
+    /**
+     * To store the question supplied by user
+     */
     public static String question;
-
-    /** To store the correct answer supplied by user */
+    /**
+     * To store the correct answer supplied by user
+     */
     public static String correctAnswer;
 
+    // static block, which means that this should be run as soon as the Main class is loaded
+    static {
+        Tree tree1;
+        if (treeFile.exists()) {
+            // read the tree from file if the file exists
+            try (ObjectInputStream ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream(treeFile)))) {
+                tree1 = (Tree) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                tree1 = new Tree();
+            }
+        } else tree1 = new Tree();
+        tree = tree1;
+        currentNode = tree.getRoot();
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::setupUI);
@@ -236,6 +242,7 @@ public class Main {
 
     /**
      * Checks if a character is a vowel
+     *
      * @param c the character to check
      * @return whether c is 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', or 'U'
      */
@@ -252,10 +259,11 @@ public class Main {
     public static void yesAction() {
         if (isChoosingImage) {
             FileDialog fd =
-                    new FileDialog((Frame)SwingUtilities.getWindowAncestor(panel), "Choose Image", FileDialog.LOAD);
+                    new FileDialog((Frame) SwingUtilities.getWindowAncestor(panel), "Choose Image", FileDialog.LOAD);
             fd.setFilenameFilter(new FilenameFilter() {
                 static final HashSet<String> acceptedImages =
                         new HashSet<>(List.of("jpg", "png", "gif", "jpeg", "webp"));
+
                 @Override
                 public boolean accept(File dir, String name) {
                     String extension = name.substring(name.lastIndexOf('.') + 1);
@@ -349,6 +357,7 @@ public class Main {
 
     /**
      * Asks user for replay
+     *
      * @param question question to ask for replay
      */
     public static void askForReplay(String question) {
