@@ -11,7 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9a0d66f8-c8dd-4653-90d7-ec107a01d377" name="Changes" comment="Custom class for svg, so we can serialize it.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -496,7 +495,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/company/Main.java</url>
-          <line>258</line>
+          <line>257</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>

@@ -32,7 +32,7 @@ public final class WritableSVGImage implements Icon, Serializable {
      * @param height height to be resized to
      */
     public WritableSVGImage(File file, int height) {
-        filename = file.getName();
+        filename = file.getAbsolutePath();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(file));
