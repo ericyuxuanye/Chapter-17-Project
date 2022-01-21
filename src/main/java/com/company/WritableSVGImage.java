@@ -40,7 +40,7 @@ public final class WritableSVGImage implements Icon, Serializable {
                 throw new IOException("Unexpectedly reached end of stream");
             }
         }
-        URI uri = svgUniverse.loadSVG(new CharArrayReader(svgData), file.getName(), false);
+        URI uri = svgUniverse.loadSVG(new CharArrayReader(svgData), filename);
         diagram = svgUniverse.getDiagram(uri);
         scale = (double)height / diagram.getHeight();
         width = (int)(diagram.getWidth() * scale);
@@ -106,7 +106,7 @@ public final class WritableSVGImage implements Icon, Serializable {
     @Serial
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        URI uri = svgUniverse.loadSVG(new CharArrayReader(svgData), filename, false);
+        URI uri = svgUniverse.loadSVG(new CharArrayReader(svgData), filename);
         diagram = svgUniverse.getDiagram(uri);
     }
 }
