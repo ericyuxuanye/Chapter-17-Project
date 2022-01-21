@@ -14,7 +14,7 @@ public class Tree implements Serializable {
     static {
         try {
             BufferedImage bufferedImage =
-                    ImageIO.read(Objects.requireNonNull(Tree.class.getClassLoader().getResource("cow.jpg")));
+                    ImageIO.read(Objects.requireNonNull(Tree.class.getClassLoader().getResourceAsStream("cow.jpg")));
             img = new ImageIcon(bufferedImage);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(

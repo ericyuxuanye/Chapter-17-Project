@@ -48,10 +48,24 @@ public final class WritableSVGImage implements Icon, Serializable {
     }
 
     public WritableSVGImage(String resource, int height) throws IOException {
-        this(
-                new File(toURI(Objects.requireNonNull(WritableSVGImage.class.getClassLoader().getResource(resource)))),
-                height
-        );
+        filename = resource;
+        int length = ClassLoader.getSystemResource(resource).openConnection().getContentLength();
+        svgData = new char[(int) length];
+        try (BufferedReader br =
+                     new BufferedReader(
+                             new InputStreamReader(
+                                     Objects.requireNonNull(
+                                             WritableSVGImage.class.getClassLoader().getResourceAsStream(resource))))) {
+            int ret = br.read(svgData);
+            if (ret == -1) {
+                throw new IOException("Unexpectedly reached end of stream");
+            }
+        }
+        URI uri = svgUniverse.loadSVG(new CharArrayReader(svgData), filename);
+        diagram = svgUniverse.getDiagram(uri);
+        scale = (double)height / diagram.getHeight();
+        width = (int)(diagram.getWidth() * scale);
+        this.height = height;
     }
 
 
