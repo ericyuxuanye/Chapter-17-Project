@@ -31,30 +31,13 @@ public final class WritableSVGImage implements Icon, Serializable {
      * @param file the file
      * @param height height to be resized to
      */
-    public WritableSVGImage(File file, int height) {
+    public WritableSVGImage(File file, int height) throws IOException {
         filename = file.getAbsolutePath();
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "File " + file.getName() + " not found",
-                    "file not found",
-                    JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
         svgData = new char[(int) file.length()];
-        for (int i = 0; i < svgData.length; i++) {
-            try {
-                svgData[i] = (char) br.read();
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Error reading svg file: " + file.getName(),
-                        "IOException",
-                        JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            int ret = br.read(svgData);
+            if (ret == -1) {
+                throw new IOException("Unexpectedly reached end of stream");
             }
         }
         URI uri = svgUniverse.loadSVG(new CharArrayReader(svgData), file.getName(), false);
@@ -64,7 +47,7 @@ public final class WritableSVGImage implements Icon, Serializable {
         this.height = height;
     }
 
-    public WritableSVGImage(String resource, int height) {
+    public WritableSVGImage(String resource, int height) throws IOException {
         this(
                 new File(toURI(Objects.requireNonNull(WritableSVGImage.class.getClassLoader().getResource(resource)))),
                 height

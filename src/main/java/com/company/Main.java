@@ -22,7 +22,19 @@ public class Main {
     public static final File treeFile =
             new File(System.getProperty("user.home") + "/Downloads/treefile.ser.gz");
 
-    public static final Icon QUESTION_IMAGE = new WritableSVGImage("question.svg", 200);
+    public static final Icon QUESTION_IMAGE;
+
+    // initialize question image
+    static {
+        Icon QUESTION_IMAGE1;
+        try {
+            QUESTION_IMAGE1 = new WritableSVGImage("question.svg", 200);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Unable to load question svg");
+            QUESTION_IMAGE1 = null;
+        }
+        QUESTION_IMAGE = QUESTION_IMAGE1;
+    }
 
     // to store currentNode
     public static Node currentNode;
@@ -276,7 +288,12 @@ public class Main {
                 Icon animalImage;
                 if (filename.substring(filename.lastIndexOf('.') + 1).equals("svg")) {
                     // read svg file
-                    animalImage = new WritableSVGImage(imageFile, 200);
+                    try {
+                        animalImage = new WritableSVGImage(imageFile, 200);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(panel, ex.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                 } else {
                     BufferedImage img;
                     try {
